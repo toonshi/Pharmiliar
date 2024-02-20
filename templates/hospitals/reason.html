@@ -1,0 +1,164 @@
+<!-- <!DOCTYPE html> -->
+<!-- <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Institution Detail</title>
+  Add your CSS file link here
+   <link rel="stylesheet" href="{% static 'styles.css' %}"> -->
+<!-- <style>
+    .blur {
+  filter: blur(5px); /* Apply blur effect */
+}
+
+.institution {
+  display: none; /* Initially hide the institution details */
+  position: fixed; /* Position the details container */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the container */
+  z-index: 1000; /* Ensure it's above the blurred background */
+  background: white; /* Set background color */
+  padding: 20px; /* Add padding */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow */
+}
+
+  </style> -->
+<!-- </head>
+<body> -->
+<!-- <h1>List of Institutions</h1>
+    <ul>
+        {% for institution in institutions %}
+            <li><a href="#" class="institution-link" data-id="{{ institution.id }}">{{ institution.institution_name }}</a></li>
+        {% endfor %}
+    </ul> -->
+{% extends 'base.html' %} {% load static %} {% block extend_head %} {% endblock
+%} {% block content %}
+
+<div class="institution  container">
+  <h1>{{ institution.institution_name }}</h1>
+  <img
+    src="{{ institution.image.url }}"
+    alt="{{ institution.institution_name }}"
+  />
+  <div class="map-container">
+    <div id="map-route"></div>
+  </div>
+  <!-- Display insurance information -->
+  {% if insurances %}
+  <h2>Insurances</h2>
+  <ul>
+    {% for insurance in insurances %}
+    <li>{{ insurance.insurance_name }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <!-- Display review summaries -->
+  {% for review in reviews %}
+  <p class="review-summary">{{ review.review_summary }}</p>
+  <a href="#" class="read-more">Read more</a>
+  {% endfor %}
+
+  <!-- Display search form
+  <form action="{% url 'search_services' %}" method="GET">
+    <input type="text" name="query">
+    <button type="submit">Search</button>
+  </form> -->
+
+  <!-- Display services -->
+  <h2>Services</h2>
+  <ul>
+    {% for service in services %}
+    <li>{{ service.service_name }} - ${{ service.service_price }}</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Display all insurances -->
+  <h2>Insurances</h2>
+  {% for insurance in insurances %}
+  <p>{{ insurance.insurance_name }}</p>
+  {% endfor %}
+  <input
+    type="hidden"
+    id="institution-lat"
+    value="{{ institution.latitude }}"
+  />
+  <input
+    type="hidden"
+    id="institution-lng"
+    value="{{ institution.longitude }}"
+  />
+  <form id="review-form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      <!-- Row 1: Review -->
+      <tr>
+        <th>{{ form.review.label_tag }}</th>
+        <td>{{ form.review }}</td>
+      </tr>
+      <!-- Row 2: Review Image -->
+      <tr>
+        <th>{{ form.review_image.label_tag }}</th>
+        <td>{{ form.review_image }}</td>
+      </tr>
+    </table>
+    <button type="submit">Submit Review</button>
+  </form>
+</div>
+{% endblock %} {% block extend_footer %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $(".read-more").click(function (e) {
+      e.preventDefault();
+      $(this).prev(".review-summary").toggle();
+      $(this).text(function (i, text) {
+        return text === "Read more" ? "Read less" : "Read more";
+      });
+    });
+  });
+</script>
+<!-- <script>
+    $(document).ready(function() {
+      $('.show-details-btn').click(function() {
+        var itemId = $(this).closest('.item').data('institution-id');
+        var detailsContainer = $(this).siblings('.details');
+        
+        // Fetch additional information via AJAX and populate the details container
+        $.ajax({
+          url: '/institution/' + itemId + '/details/',
+          type: 'GET',
+          success: function(data) {
+            detailsContainer.html(data);
+            detailsContainer.slideDown();
+          },
+          error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+          }
+        });
+      });
+    });
+  </script> -->
+<script>
+  $(document).ready(function () {
+    $(".show-details-btn").click(function () {
+      // Toggle visibility and fade in the institution details
+      $(".institution").fadeIn();
+
+      // Apply blur effect to the rest of the content
+      $("body").addClass("blur");
+    });
+  });
+</script>
+<script type="text/javascript">
+  var google_api_key = "{{google_api_key|safe}}";
+  var base_country = "{{base_country|safe}}";
+</script>
+<script src="{% static 'hospitals.js' %}"></script>
+<script src="{% static 'google_places_waypoints.js' %}"></script>
+<script src="{% static 'hospital_maps.js' %}"></script>
+{% endblock %}
+<!-- </body>
+</html> -->
