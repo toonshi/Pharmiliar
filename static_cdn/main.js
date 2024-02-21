@@ -79,10 +79,10 @@ var FormControls = function () {
             event.preventDefault();
             CustomFormSubmitPost($('#signupform button[type=submit]'));
 
-            // grecaptcha.ready(function() {
-            //   grecaptcha.execute(recaptcha_site_key, {action: "/"}).then(function(token) {
+            grecaptcha.ready(function() {
+              grecaptcha.execute(recaptcha_site_key, {action: "/"}).then(function(token) {
 
-            //     document.getElementById('id_token').value = token;
+                document.getElementById('id_token').value = token;
             
                 var formdata = form.serialize() 
                 $.ajax({
@@ -97,11 +97,17 @@ var FormControls = function () {
                         else{
                           var redirect = false
                         }
-                        ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
+                        // ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
                     },
                     error: function(xhr){
                         CustomFormSubmitResponse($('#signupform button[type=submit]'));
-                        ShowAlert("Error", "There was an error, please try again", "error", false);
+                        function ShowAlert(title, message, type, redirect) {
+                            console.log("Title:", title);
+                            console.log("Message:", message);
+                            console.log("Type:", type);
+                            console.log("Redirect:", redirect);
+                        };
+                        // ShowAlert("Error", "There was an error, please try again", "error", false);
                         console.log(xhr.status + ": " + xhr.responseText);
                     }
                 }) 
@@ -122,6 +128,10 @@ var FormControls = function () {
                 url: form.attr("action"),
                 method: form.attr("method"),
                 data: formdata,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest", // To let the server know that this is an AJAX request (not just a plain HTTP request)
+                    // 'X-CSRFToken': getCookie('csrftoken')
+                },
                 success: function(json){
                     CustomFormSubmitResponse($('#signinform button[type=submit]'));
                     if (json["result"] == "Success"){
