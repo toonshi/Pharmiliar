@@ -16,22 +16,22 @@
 
 
   <form id="signupform" method="POST" action="/sign-up">
-    {% csrf_token %}
+    <!-- {% csrf_token %} -->
 
     
-    <label for="first_name">First Name</label>
+    <label for="id_first_name">First Name</label>
     {{form.first_name}}
 
-    <label for="last_name">Last Name</label>
+    <label for="id_last_name">Last Name</label>
     {{form.last_name}}
 
-    <label for="username">Username</label>
+    <label for="id_username">Username</label>
     {{form.username}}
 
-    <label for="password1">Password</label>
+    <label for="id_password1">Password</label>
     {{form.password1}}
 
-    <label for="password2">Confirm Password</label>
+    <label for="id_password2">Confirm Password</label>
     {{form.password2}}
 
     {{form.token}}

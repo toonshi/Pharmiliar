@@ -26,9 +26,9 @@
   {% endif %}
 
   {% if "hospitals" in request.path %}
-  <li><a class="active" href="{% url 'hospitals:map' %}">hospitals</a></li>
+  <li><a class="active" href="{% url 'hospitals:institution_list' %}">hospitals</a></li>
   {% else %}
-  <li><a href="{% url 'hospitals:map' %}">hospitals</a></li>
+  <li><a href="{% url 'hospitals:institution_list' %}">hospitals</a></li>
   {% endif %}
 
 

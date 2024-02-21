@@ -208,6 +208,7 @@ def Directions(*args, **kwargs):
             'destination': destination,
             "key": settings.GOOGLE_API_KEY
         })
+    
 
     directions = result.json()
 

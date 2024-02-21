@@ -6,8 +6,9 @@
 
 
 
-{% endblock
-  %} {% block content %}
+{% endblock %} 
+
+{% block content %}
     <h1>List of Institutions</h1>
     <div class="container">
         {% for institution in institutions %}
@@ -27,5 +28,6 @@
             </li>
         </div>
         {% endfor %}
+{% endblock %}
     </div>
 
