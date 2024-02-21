@@ -69,6 +69,124 @@ function CustomFormSubmitResponse(e){
 
 
 
+// "use strict";
+// var FormControls = function () {
+
+//     var usersignup = function () {
+
+//         var form = $('#signupform')
+//         form.submit(function(event){
+//             event.preventDefault();
+//             CustomFormSubmitPost($('#signupform button[type=submit]'));
+
+//             grecaptcha.ready(function() {
+//               grecaptcha.execute(recaptcha_site_key, {action: "/"}).then(function(token) {
+
+//                 document.getElementById('id_token').value = token;
+            
+//                 var formdata = form.serialize() 
+//                 $.ajax({
+//                     url: form.attr("action"),
+//                     method: form.attr("method"),
+//                     data: formdata,
+//                     success: function(json){
+//                         CustomFormSubmitResponse($('#signupform button[type=submit]'));
+//                         if (json["result"] == "Success"){
+//                           var redirect = "/"
+//                         }
+//                         else{
+//                           var redirect = false
+//                         }
+//                         // ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
+//                     },
+//                     error: function(xhr){
+//                         CustomFormSubmitResponse($('#signupform button[type=submit]'));
+//                         function ShowAlert(title, message, type, redirect) {
+//                             console.log("Title:", title);
+//                             console.log("Message:", message);
+//                             console.log("Type:", type);
+//                             console.log("Redirect:", redirect);
+//                         };
+//                         // ShowAlert("Error", "There was an error, please try again", "error", false);
+//                         console.log(xhr.status + ": " + xhr.responseText);
+//                     }
+//                 }) 
+//             })
+//             })
+
+//         })    
+//     };
+
+//     var usersignin = function (){
+//         var form = $('#signinform')
+//         form.submit(function(event){
+//             event.preventDefault();
+//             CustomFormSubmitPost($('#signinform button[type=submit]'));
+            
+//             var formdata = form.serialize() 
+//             $.ajax({
+//                 url: form.attr("action"),
+//                 method: form.attr("method"),
+//                 data: formdata,
+//                 headers: {
+//                     "X-Requested-With": "XMLHttpRequest", // To let the server know that this is an AJAX request (not just a plain HTTP request)
+//                     // 'X-CSRFToken': getCookie('csrftoken')
+//                 },
+//                 success: function(json){
+//                     CustomFormSubmitResponse($('#signinform button[type=submit]'));
+//                     if (json["result"] == "Success"){
+//                       var redirect = "/"
+//                     }
+//                     else{
+//                       var redirect = false
+//                     }
+//                     ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
+//                 },
+//                 error: function(xhr){
+//                     CustomFormSubmitResponse($('#signinform button[type=submit]'));
+//                     ShowAlert("Error", "There was an error, please try again", "error", false);
+//                     console.log(xhr.status + ": " + xhr.responseText);
+//                 }
+//             }) 
+//         });
+//     };
+
+//     var userprofile = function () {
+
+//         var form = $('#profileform')
+//         form.submit(function(event){
+//             event.preventDefault();
+//             CustomFormSubmitPost($('#profileform button[type=submit]'));
+            
+//             var formdata = form.serialize()
+//             $.ajax({
+//                 url: form.attr("action"),
+//                 method: form.attr("method"),
+//                 data: formdata,
+//                 success: function(json){
+//                     CustomFormSubmitResponse($('#profileform button[type=submit]'));
+//                     if (json["result"] == "Success"){
+//                       var redirect = "/"
+//                     }
+//                     else{
+//                       var redirect = false
+//                     }
+//                     ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
+//                 },
+//                 error: function(xhr){
+//                     CustomFormSubmitResponse($('#profileform button[type=submit]'));
+//                     ShowAlert("Error", "There was an error, please try again", "error", false);
+//                     console.log(xhr.status + ": " + xhr.responseText);
+//                 }
+//             }) 
+
+//         })    
+//     };
+
+//     return {
+//         init: function() { 
+//             usersignup();
+
 "use strict";
 var FormControls = function () {
 
@@ -79,49 +197,10 @@ var FormControls = function () {
             event.preventDefault();
             CustomFormSubmitPost($('#signupform button[type=submit]'));
 
-            grecaptcha.ready(function() {
-              grecaptcha.execute(recaptcha_site_key, {action: "/"}).then(function(token) {
-
-                document.getElementById('id_token').value = token;
-            
-                var formdata = form.serialize() 
-                $.ajax({
-                    url: form.attr("action"),
-                    method: form.attr("method"),
-                    data: formdata,
-                    success: function(json){
-                        CustomFormSubmitResponse($('#signupform button[type=submit]'));
-                        if (json["result"] == "Success"){
-                          var redirect = "/"
-                        }
-                        else{
-                          var redirect = false
-                        }
-                        // ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
-                    },
-                    error: function(xhr){
-                        CustomFormSubmitResponse($('#signupform button[type=submit]'));
-                        function ShowAlert(title, message, type, redirect) {
-                            console.log("Title:", title);
-                            console.log("Message:", message);
-                            console.log("Type:", type);
-                            console.log("Redirect:", redirect);
-                        };
-                        // ShowAlert("Error", "There was an error, please try again", "error", false);
-                        console.log(xhr.status + ": " + xhr.responseText);
-                    }
-                }) 
-            })
-            })
-
-        })    
-    };
-
-    var usersignin = function (){
-        var form = $('#signinform')
-        form.submit(function(event){
-            event.preventDefault();
-            CustomFormSubmitPost($('#signinform button[type=submit]'));
+            // Commented out reCAPTCHA-related code
+            // grecaptcha.ready(function() {
+            //   grecaptcha.execute(recaptcha_site_key, {action: "/"}).then(function(token) {
+            //     document.getElementById('id_token').value = token;
             
             var formdata = form.serialize() 
             $.ajax({
@@ -133,64 +212,121 @@ var FormControls = function () {
                     // 'X-CSRFToken': getCookie('csrftoken')
                 },
                 success: function(json){
-                    CustomFormSubmitResponse($('#signinform button[type=submit]'));
-                    if (json["result"] == "Success"){
-                      var redirect = "/"
-                    }
-                    else{
-                      var redirect = false
-                    }
-                    ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
+                    CustomFormSubmitResponse($('#signupform button[type=submit]'));
+                    // Commented out redirect variable
+                    // if (json["result"] == "Success"){
+                    //   var redirect = "/"
+                    // }
+                    // else{
+                    //   var redirect = false
+                    // }
+                    ShowAlert(json["result"], json["message"], json["result"].toLowerCase());
                 },
                 error: function(xhr){
-                    CustomFormSubmitResponse($('#signinform button[type=submit]'));
+                    CustomFormSubmitResponse($('#signupform button[type=submit]'));
                     ShowAlert("Error", "There was an error, please try again", "error", false);
                     console.log(xhr.status + ": " + xhr.responseText);
                 }
             }) 
-        });
-    };
-
-    var userprofile = function () {
-
-        var form = $('#profileform')
-        form.submit(function(event){
-            event.preventDefault();
-            CustomFormSubmitPost($('#profileform button[type=submit]'));
-            
-            var formdata = form.serialize()
-            $.ajax({
-                url: form.attr("action"),
-                method: form.attr("method"),
-                data: formdata,
-                success: function(json){
-                    CustomFormSubmitResponse($('#profileform button[type=submit]'));
-                    if (json["result"] == "Success"){
-                      var redirect = "/"
-                    }
-                    else{
-                      var redirect = false
-                    }
-                    ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
-                },
-                error: function(xhr){
-                    CustomFormSubmitResponse($('#profileform button[type=submit]'));
-                    ShowAlert("Error", "There was an error, please try again", "error", false);
-                    console.log(xhr.status + ": " + xhr.responseText);
-                }
-            }) 
+            // })
+            // })
 
         })    
     };
+
+    var usersignin = function (){
+                var form = $('#signinform')
+                form.submit(function(event){
+                    event.preventDefault();
+                    CustomFormSubmitPost($('#signinform button[type=submit]'));
+                    
+                    var formdata = form.serialize() 
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: form.attr("method"),
+                        data: formdata,
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest", // To let the server know that this is an AJAX request (not just a plain HTTP request)
+                            // 'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        success: function(json){
+                            CustomFormSubmitResponse($('#signinform button[type=submit]'));
+                            if (json["result"] == "Success"){
+                              var redirect = "/"
+                            }
+                            else{
+                              var redirect = false
+                            }
+                            ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
+                        },
+                        error: function(xhr){
+                            CustomFormSubmitResponse($('#signinform button[type=submit]'));
+                            ShowAlert("Error", "There was an error, please try again", "error", false);
+                            console.log(xhr.status + ": " + xhr.responseText);
+                        }
+                    }) 
+                });
+            };
+
+
+
+
+            var userprofile = function () {
+
+                        var form = $('#profileform')
+                        form.submit(function(event){
+                            event.preventDefault();
+                            CustomFormSubmitPost($('#profileform button[type=submit]'));
+                            
+                            var formdata = form.serialize()
+                            $.ajax({
+                                url: form.attr("action"),
+                                method: form.attr("method"),
+                                data: formdata,
+                                headers: {
+                                    "X-Requested-With": "XMLHttpRequest", // To let the server know that this is an AJAX request (not just a plain HTTP request)
+                                    // 'X-CSRFToken': getCookie('csrftoken')
+                                },
+                                success: function(json){
+                                    CustomFormSubmitResponse($('#profileform button[type=submit]'));
+                                    if (json["result"] == "Success"){
+                                      var redirect = "/"
+                                    }
+                                    else{
+                                      var redirect = false
+                                    }
+                                    ShowAlert(json["result"], json["message"], json["result"].toLowerCase(), redirect);
+                                },
+                                error: function(xhr){
+                                    CustomFormSubmitResponse($('#profileform button[type=submit]'));
+                                    ShowAlert("Error", "There was an error, please try again", "error", false);
+                                    console.log(xhr.status + ": " + xhr.responseText);
+                                }
+                            }) 
+                
+                        })    
+                    };
+                
+               
+
+
 
     return {
         init: function() { 
             usersignup();
             usersignin(); 
             userprofile();
+            
         }
     };
 }();
+
+
+
+            
+//         }
+//     };
+// }();
 
 jQuery(document).ready(function() {     
     FormControls.init();
