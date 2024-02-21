@@ -262,3 +262,15 @@ def RedirectParams(**kwargs):
 		query_string = urlencode(params)
 		response['Location'] += '?' + query_string
 	return response
+
+def reCAPTCHAValidation(token):
+
+	''' reCAPTCHA validation '''
+	result = requests.post(
+		'https://www.google.com/recaptcha/api/siteverify',
+		 data={
+		 	'secret': settings.RECAPTCHA_PRIVATE_KEY,
+			'response': token
+		 })
+
+	return result.json()

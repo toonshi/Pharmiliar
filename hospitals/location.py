@@ -22,7 +22,7 @@ def fetch_hospitals(base_country):
     if 'results' in data:
         hospitals = data['results']
         for hospital in hospitals:
-            name = hospital['name']
+            institution_name = hospital['name']
             country = base_country
             latitude = hospital['geometry']['location']['lat']
             longitude = hospital['geometry']['location']['lng']
@@ -31,16 +31,18 @@ def fetch_hospitals(base_country):
             postal_code = next((comp['long_name'] for comp in address_components if 'postal_code' in comp['types']), None)
             
             # Create or update Institution instance
+            # Create or update Institution instance
             institution, created = Institution.objects.update_or_create(
-                name=name,
-                country=country,
-                latitude=latitude,
-                longitude=longitude,
-                county=county,
-                postal_code=postal_code
-            )
-            
-            print(f'{"Created" if created else "Updated"} institution: {institution.name}')
+            institution_name=institution_name,
+            country=country,
+            latitude=latitude,
+            longitude=longitude,
+            county=county,
+            postal_code=postal_code,
+            # user_profile=None  # Provide a default value for user_profile
+)
+
+            print(f'{"Created" if created else "Updated"} institution: {institution.institution_name}')
     else:
         print('No hospitals found.')
 

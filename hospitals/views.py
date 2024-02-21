@@ -34,6 +34,6 @@ def institution_detail(request, institution_id):
         'longitude': institution.longitude,
     }
     return render(request, 'reason.html', context)
-def institution_list(request):
+def institutions(request):
     institutions = Institution.objects.all()
-    return render(request, 'institution_list.html', {'institutions': institutions})
+    return render(request, 'institutions.html', {'institutions': institutions})

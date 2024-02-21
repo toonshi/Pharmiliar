@@ -1,0 +1,33 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block extend_head %} 
+
+
+
+{% endblock %} 
+
+{% block content %}
+    <h1>List of Institutions</h1>
+    <div class="container">
+        {% for institution in institutions %}
+        <div class="list-item" data-institution-id="{{ institution.id }}">
+            <li>
+                <a href="{% url 'institution_detail' institution.id %}">{{ institution.name }}</a>
+                <div class="thumbnail">
+                    <img src="{{ institution.image.url }}" alt="{{ institution.institution_name }}" />
+                    <div class="overlay">
+                        <p>{{ institution.institution_name }}</p>
+                        <button class="show-details-btn">Show Details</button>
+                        <div class="details" style="display: none">
+                            <!-- Additional information will be loaded dynamically here -->
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </div>
+        {% endfor %}
+{% endblock %}
+    </div>
+

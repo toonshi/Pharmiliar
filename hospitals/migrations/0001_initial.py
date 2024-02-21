@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('latitude', models.CharField(blank=True, max_length=50, null=True, verbose_name='Latitude')),
                 ('image', models.ImageField(upload_to='images/')),
                 ('phone_number', models.CharField(blank=True, max_length=16, null=True, verbose_name='Post Code')),
-                ('user_profile', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='userprofiles', to='users.userprofile')),
+                # ('user_profile', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='userprofiles', to='users.userprofile')),
             ],
         ),
         migrations.CreateModel(

@@ -197,10 +197,11 @@ var FormControls = function () {
             event.preventDefault();
             CustomFormSubmitPost($('#signupform button[type=submit]'));
 
-            // Commented out reCAPTCHA-related code
-            // grecaptcha.ready(function() {
-            //   grecaptcha.execute(recaptcha_site_key, {action: "/"}).then(function(token) {
-            //     document.getElementById('id_token').value = token;
+
+            grecaptcha.ready(function() {
+                
+              grecaptcha.execute(recaptcha_site_key, {action: "/"}).then(function(token) {
+                document.getElementById('id_token').value = token;
             
             var formdata = form.serialize() 
             $.ajax({
@@ -209,17 +210,17 @@ var FormControls = function () {
                 data: formdata,
                 headers: {
                     "X-Requested-With": "XMLHttpRequest", // To let the server know that this is an AJAX request (not just a plain HTTP request)
-                    // 'X-CSRFToken': getCookie('csrftoken')
+                    'X-CSRFToken': getCookie('csrftoken')
                 },
                 success: function(json){
                     CustomFormSubmitResponse($('#signupform button[type=submit]'));
                     // Commented out redirect variable
-                    // if (json["result"] == "Success"){
-                    //   var redirect = "/"
-                    // }
-                    // else{
-                    //   var redirect = false
-                    // }
+                    if (json["result"] == "Success"){
+                      var redirect = "/"
+                    }
+                    else{
+                      var redirect = false
+                    }
                     ShowAlert(json["result"], json["message"], json["result"].toLowerCase());
                 },
                 error: function(xhr){
@@ -228,8 +229,8 @@ var FormControls = function () {
                     console.log(xhr.status + ": " + xhr.responseText);
                 }
             }) 
-            // })
-            // })
+            })
+            })
 
         })    
     };
@@ -247,7 +248,7 @@ var FormControls = function () {
                         data: formdata,
                         headers: {
                             "X-Requested-With": "XMLHttpRequest", // To let the server know that this is an AJAX request (not just a plain HTTP request)
-                            // 'X-CSRFToken': getCookie('csrftoken')
+                            'X-CSRFToken': getCookie('csrftoken')
                         },
                         success: function(json){
                             CustomFormSubmitResponse($('#signinform button[type=submit]'));
@@ -285,7 +286,7 @@ var FormControls = function () {
                                 data: formdata,
                                 headers: {
                                     "X-Requested-With": "XMLHttpRequest", // To let the server know that this is an AJAX request (not just a plain HTTP request)
-                                    // 'X-CSRFToken': getCookie('csrftoken')
+                                    'X-CSRFToken': getCookie('csrftoken')
                                 },
                                 success: function(json){
                                     CustomFormSubmitResponse($('#profileform button[type=submit]'));
@@ -331,7 +332,20 @@ var FormControls = function () {
 jQuery(document).ready(function() {     
     FormControls.init();
 });
-
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 $(function() {
     // This function gets cookie with a given name
     function getCookie(name) {
