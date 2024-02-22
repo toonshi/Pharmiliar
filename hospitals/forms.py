@@ -4,5 +4,6 @@ from .models import UserReview
 class UserReviewForm(forms.ModelForm):
     class Meta:
         model = UserReview
-        fields = ['institution','review','review_image']
+        fields = ['institution','review','review_image','user']
+        
 

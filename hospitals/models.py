@@ -14,8 +14,13 @@ class Insurance(models.Model):
 
 
 class Institution(models.Model):
+   
+
+    user_profile = models.ForeignKey('users.UserProfile', on_delete=models.CASCADE,  default=None, null=True)
+
+    institution_id = models.AutoField(primary_key=True, verbose_name="InstitutionId", unique=True)
     institution_name = models.CharField(verbose_name="InstitutionName", max_length=255)
-    institution_id = models.AutoField(primary_key=True, verbose_name="InstitutionId")
+
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     address = models.CharField(verbose_name="Address", max_length=100, null=True, blank=True)
@@ -25,9 +30,9 @@ class Institution(models.Model):
     country = models.CharField(verbose_name="Country", max_length=100, null=True, blank=True)
     longitude = models.CharField(verbose_name="Longitude", max_length=50, null=True, blank=True)
     latitude = models.CharField(verbose_name="Latitude", max_length=50, null=True, blank=True)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
-    phone_number = models.CharField(verbose_name="Phone Number", max_length=16, null=True, blank=True)
-
+    image = models.ImageField(upload_to='images/')
+    phone_number =  models.CharField(verbose_name="Post Code", max_length=16, null=True, blank=True)
+    
     def __str__(self):
         return self.institution_name
 
