@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django.shortcuts import render
+
+# Create your views here.
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
@@ -37,7 +40,7 @@ def institution_detail(request, institution_id):
         'longitude': institution.longitude,
         'userProfile' : institution.user_profile,
     }
-    return render(request, 'reason.html', context)
+    return render(request, 'hospitals/reason.html', context)
 def institutions(request):
     institutions = Institution.objects.all()
-    return render(request, 'institutions.html', {'institutions': institutions})
+    return render(request, 'hospitals/institutions.html', {'institutions': institutions})
