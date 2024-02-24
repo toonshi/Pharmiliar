@@ -1,7 +1,7 @@
 import os
 import django
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Pharm.settings") 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Pharmiliar.settings") 
 django.setup()
 
 import requests
