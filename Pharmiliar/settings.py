@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'hospitals',
+    'django_crontab',
     
 
 
@@ -165,3 +166,7 @@ LOGIN_REDIRECT_URL = "users:account"
 LOGOUT_REDIRECT_URL = "users:sign-in"
 
 BASE_COUNTRY = "KE"
+
+CRONJOBS = [
+    ('0 0 */2 * *', 'myapp.utils.my_periodic_task'),  # Run every two weeks
+]

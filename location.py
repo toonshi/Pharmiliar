@@ -53,7 +53,7 @@ def update_institutions_from_google_places(base_country):
                 'sunday': opening_hours_data.get('sunday'),
             }
             if 'photos' in hospital:
-                photo_reference = hospital['photos'][0]['photo_reference']
+                photo_reference = hospital['photos'][1]['photo_reference']
                 photo_url = f'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}'
                 photo_response = requests.get(photo_url)
                 if photo_response.status_code == 200:
