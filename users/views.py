@@ -251,7 +251,11 @@ class SignInView(AjaxFormMixin, FormView):
 
     def form_valid(self, form):
         response = super(AjaxFormMixin, self).form_valid(form)
-        if self.request.is_ajax():
+        
+
+        if self.request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+
+
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             # Attempt to authenticate user

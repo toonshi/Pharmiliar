@@ -10,7 +10,7 @@ function initAutoComplete(){
    autocomplete = new google.maps.places.Autocomplete(
        document.getElementById('id-google-address'),
        {
-           types: ['address'],
+        types: ['geocode', 'establishment'],
            componentRestrictions: {'country': [base_country.toLowerCase()]},
        })
 

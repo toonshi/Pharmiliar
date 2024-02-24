@@ -1,8 +1,9 @@
 from django.urls import path
-# from .views import institutions, institution_detail
 from . import views
+
+app_name = 'hospitals'
+
 urlpatterns = [
-    path('institutions/', views.institutions, name='institutions'),
+    path('hospitals', views.institutions, name='institutions'),  # Assuming this is the view for listing institutions
     path('institution/<int:institution_id>/', views.institution_detail, name='institution_detail'),
-    
 ]

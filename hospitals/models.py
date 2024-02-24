@@ -15,7 +15,7 @@ class Insurance(models.Model):
 
 class Institution(models.Model):
     # Your existing fields
-    # user_profile = models.ForeignKey('users.UserProfile', on_delete=models.CASCADE, default=None, null=True, blank=True)
+    user_profile = models.ForeignKey('users.UserProfile', on_delete=models.CASCADE, default=None, null=True, blank=True)
     institution_id = models.AutoField(primary_key=True, verbose_name="InstitutionId", unique=True)
     institution_name = models.CharField(verbose_name="InstitutionName", max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
