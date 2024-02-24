@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,11 +145,15 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 
-GOOGLE_API_KEY = "AIzaSyCED9VruoUV7BfMhPMfguXSOIU6VDDHOQ4"
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-RECAPTCHA_PUBLIC_KEY = "6LeXCV0pAAAAACujx1uNqclm8mkN7_PSlIoBZQ2U"
+RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY")
 
-RECAPTCHA_PRIVATE_KEY = "6LeXCV0pAAAAAOWGFYAXTPBmgvcyThzPY86RexIO"
+RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPTCHA_PRIVATE_KEY ")
+
+OPENAI_API_KEY =  os.getenv("OPENAI_API_KEY")
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
