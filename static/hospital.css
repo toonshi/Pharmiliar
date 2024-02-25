@@ -1,0 +1,78 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.container, .single-institution {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.single-institution {
+  display: none;
+}
+
+.institution-list, .institution-name {
+  color: #333;
+}
+
+.list-item {
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.back-button {
+  background-color: #ffd700;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #ffcc00;
+}
+
+.insurance-heading, .service-heading {
+  color: #333;
+}
+
+.insurance-list, .service-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.insurance-paragraph {
+  margin: 0;
+}
+
+.review-label, .review-image-label {
+  vertical-align: top;
+}
+
+.submit-button {
+  background-color: #ffd700;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #ffcc00;
+}

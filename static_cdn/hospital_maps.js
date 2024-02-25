@@ -1,23 +1,23 @@
-// Use window.addEventListener('load', ...) instead of document.addEventListener('DOMContentLoaded', ...)
-window.addEventListener('load', function() {
+window.addEventListener('DOMContentLoaded', function() {
 
     async function loadGoogleMaps() {
         // Load the Google Maps JavaScript API script dynamically
         await new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "&libraries=places";
-
+    
             script.defer = true;
             script.async = true;
-            script.onload = resolve;
+            script.onload = () => {
+                // Once the library is loaded, call initMap
+                initMap();
+                resolve();
+            };
             script.onerror = reject;
             document.head.appendChild(script);
         });
-
-        // Once the library is loaded, call initMap
-        initMap();
     }
-
+    
     function initMap() {
         // Check if the google object is defined
         if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
@@ -25,8 +25,9 @@ window.addEventListener('load', function() {
             return; // Do nothing if Google Maps API is not loaded
         }
 
-        var institutionLat = parseFloat(document.getElementById('institution_lat').value);
         var institutionLng = parseFloat(document.getElementById('institution_lng').value);
+        var institutionLat = parseFloat(document.getElementById('institution_lat').value);
+       
         
         var directionsService = new google.maps.DirectionsService();
         var directionsDisplay = new google.maps.DirectionsRenderer();

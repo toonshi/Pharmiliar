@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extend_head %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="institutions">
+  <div class="container">
+    <h1 class="institution-list">List of Institutions</h1>
+    {% for inst in institutions %}
+    <div class="list-item" data-institution-id="{{ inst.id }}">
+      <li>
+        <p>{{ inst.institution_name }}</p>
+      </li>
+    </div>
+    {% endfor %}
+  </div>
+  
+  {% if institution %}
+  <div class="single-institution">
+    <button class="back-button">Back</button> <!-- Back button added -->
+    <h1 class="institution-name">{{ institution.institution_name }}</h1>
+    <img class="thumbnail img" src="{{ institution.image.url }}" alt="{{ institution.institution_name }}" />
+    
+    <!-- <div id="map-route"></div> -->
+    
+    <!-- Display insurance information -->
+    {% if insurances %}
+    <h2 class="insurance-heading">Insurances</h2>
+    <ul class="insurance-list">
+      {% for insurance in insurances %}
+      <li>{{ insurance.insurance_name }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Display review summaries -->
+    <div class="reviews-section">
+      {% for review in reviews %}
+      <p class="review-summary">{{ review.review_summary }}</p>
+      <a href="#" class="read-more">Read more</a>
+      {% endfor %}
+    </div>
+    <!-- Display services -->
+    <h2 class="service-heading">Services</h2>
+    <ul class="service-list">
+      {% for service in services %}
+      <li>{{ service.service_name }} - ${{ service.service_price }}</li>
+      {% endfor %}
+    </ul>
+
+    <!-- Display all insurances -->
+    <h2 class="insurance-heading">Insurances</h2>
+    {% for insurance in insurances %}
+    <p class="insurance-paragraph">{{ insurance.insurance_name }}</p>
+    {% endfor %}
+
+    <!-- Pass institution details -->
+    <input type="hidden" id="institution_lat" value="{{ institution.latitude }}">
+    <input type="hidden" id="institution_lng" value="{{ institution.longitude }}">
+    
+    <!-- Pass API key and base country -->
+    <input type="hidden" id="google_api_key" value="{{ google_api_key }}">
+    <input type="hidden" id="base_country" value="{{ base_country }}">
+    
+    <form id="review-form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table>
+        <!-- Row 1: Review -->
+        <tr>
+          <!-- <th class="review-label">{{ form.review.label_tag }}</th> -->
+          <th>Leave a review</th>
+          <!-- <th class="review-label">{{ form.review.label_tag }}</th> -->
+          <td class="review-field">{{ form.review }}</td>
+        </tr>
+        <!-- Row 2: Review Image -->
+        <tr>
+          <th>Leave a picture of your visit (optional)</th>
+          <!-- <th class="review-image-label">{{ form.review_image.label_tag }}</th> -->
+          <td class="review-image-field">{{ form.review_image }}</td>
+        </tr>
+      </table>
+      <button class="submit-button" type="submit">Submit Review</button>
+    </form>
+  </div>
+  {% else %}
+  
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extend_footer %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('.list-item').click(function() {
+      var id = $(this).data('institution-id');
+      $.ajax({
+        url: '/get_institution_details/',
+        type: 'GET',
+        data: {
+          'institution_id': id
+        },
+        success: function(data) {
+          $('.institution-name').text(data.institution_name);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+
+      $.ajax({
+        url: '/get_reviews/',
+        type: 'GET',
+        data: {
+          'institution_id': id
+        },
+        success: function(data) {
+          $('.reviews-section').empty();
+          data.reviews.forEach(function(review) {
+            $('.reviews-section').append('<p class="review-summary">' + review.review_summary + '</p><a href="#" class="read-more">Read more</a>');
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+
+      $('.container').fadeOut('slow', function() {
+        $('.single-institution').fadeIn('slow');
+      });
+    });
+
+    $('.back-button').click(function() {
+      $('.single-institution').fadeOut('slow', function() {
+        $('.container').fadeIn('slow');
+      });
+    });
+  });
+
+  // // Load Google Maps
+  // var google_api_key = $("#google_api_key").val();
+  // var base_country = $("#base_country").val();
+
+  // function loadGoogleMaps() {
+  //   return new Promise(function(resolve, reject) {
+  //     var script = document.createElement('script');
+  //     script.src = "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "&libraries=places";
+  //     script.defer = true;
+  //     script.async = true;
+  //     script.onload = function() {
+  //       initMap(); // Call initMap once the Google Maps API is loaded
+  //       resolve();
+  //     };
+  //     script.onerror = reject;
+  //     document.head.appendChild(script);
+  //   });
+  // }
+
+  // function initMap() {
+  //   // Check if the google object is defined
+  //   if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+  //     console.error('Google Maps JavaScript API is not loaded.');
+  //     return; // Do nothing if Google Maps API is not loaded
+  //   }
+
+  //   var institutionLat = parseFloat($("#institution_lat").val());
+  //   var institutionLng = parseFloat($("#institution_lng").val());
+
+  //   var directionsService = new google.maps.DirectionsService();
+  //   var directionsDisplay = new google.maps.DirectionsRenderer();
+
+  //   var map = new google.maps.Map(document.getElementById('map-route'), {
+  //     zoom: 7,
+  //     center: {
+  //       lat: institutionLat,
+  //       lng: institutionLng
+  //     }
+  //   });
+
+  //   directionsDisplay.setMap(map);
+
+  //   calculateAndDisplayRoute(directionsService, directionsDisplay, institutionLat, institutionLng);
+  // }
+
+  // // Implementation of calculateAndDisplayRoute
+  // function calculateAndDisplayRoute(directionsService, directionsDisplay, institutionLat, institutionLng) {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(function(position) {
+  //       var lat_a = position.coords.latitude; // User's latitude
+  //       var long_a = position.coords.longitude; // User's longitude
+
+  //       var origin = { lat: lat_a, lng: long_a };
+  //       var destination = { lat: institutionLat, lng: institutionLng }; // Set destination to institution's location
+
+  //       directionsService.route({
+  //         origin: origin,
+  //         destination: destination,
+  //         travelMode: google.maps.TravelMode.DRIVING,
+  //       }, function(response, status) {
+  //         if (status === 'OK') {
+  //           directionsDisplay.setDirections(response);
+  //         } else {
+  //           alert('Directions request failed due to ' + status);
+  //           window.location.assign("/route");
+  //         }
+  //       });
+  //     }, function(error) {
+  //       console.error('Error getting user location:', error);
+  //       handleLocationError(error);
+  //     });
+  //   } else {
+  //     console.error('Geolocation is not supported by this browser.');
+  //     // Handle browser not supporting geolocation
+  //   }
+  // }
+
+  // function handleLocationError(error) {
+  //   console.error("Error getting user location:", error);
+  //   alert("Error: Unable to get your location. Using default location.");
+  // }
+
+  // // Call loadGoogleMaps when the page is loaded
+  // loadGoogleMaps().catch(function(error) {
+  //   console.error('Error loading Google Maps JavaScript API:', error);
+  //   handleMapLoadError(error);
+  // });
+
+  // function handleMapLoadError(error) {
+  //   console.error("Error loading Google Maps:", error);
+  //   alert("Error: Failed to load Google Maps.");
+  // }
+
+</script>
+{% endblock %}

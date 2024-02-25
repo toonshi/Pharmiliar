@@ -1,5 +1,4 @@
-// Use window.addEventListener('load', ...) instead of document.addEventListener('DOMContentLoaded', ...)
-window.addEventListener('load', function() {
+window.addEventListener('DOMContentLoaded', function() {
 
     async function loadGoogleMaps() {
         // Load the Google Maps JavaScript API script dynamically

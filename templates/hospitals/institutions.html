@@ -1,15 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block extend_head %}
+<style>
+  /* Add CSS for full-page covering */
+  .institutions.full-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white; /* You can adjust background color */
+    opacity: 1; /* Initially visible */
+    transition: opacity 0.5s ease; /* Add smooth transition */
+  }
+
+  /* CSS to hide element */
+  .hidden {
+    display: none;
+  }
+</style>
+
+
+
 {% endblock %}
+
 
 {% block content %}
 
-<div class="institutions">
   <div class="container">
     <h1 class="institution-list">List of Institutions</h1>
-    {% for inst in all_institutions %}
+    {% for inst in institutions %}
     <div class="list-item" data-institution-id="{{ inst.id }}">
       <li>
         <p>{{ inst.institution_name }}</p>
@@ -17,136 +39,102 @@
     </div>
     {% endfor %}
   </div>
-  {% if institution %}
-  <div class="single-institution">
-    <button class="back-button">Back</button> <!-- Back button added -->
-    <h1 class="institution-name">{{ institution.institution_name }}</h1>
-    <img class="thumbnail img" src="{{ institution.image.url }}" alt="{{ institution.institution_name }}" />
-    
-      <div id="map-route">
-
-      </div>
-    
-    <!-- Display insurance information -->
-    {% if insurances %}
-    <h2 class="insurance-heading">Insurances</h2>
-    <ul class="insurance-list">
-      {% for insurance in insurances %}
-      <li>{{ insurance.insurance_name }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    <!-- Display review summaries -->
-    <div class="reviews-section">
-      {% for review in reviews %}
-      <p class="review-summary">{{ review.review_summary }}</p>
-      <a href="#" class="read-more">Read more</a>
-      {% endfor %}
-    </div>
-
-    <!-- Display services -->
-    <h2 class="service-heading">Services</h2>
-    <ul class="service-list">
-      {% for service in services %}
-      <li>{{ service.service_name }} - ${{ service.service_price }}</li>
-      {% endfor %}
-    </ul>
-
-    <!-- Display all insurances -->
-    <h2 class="insurance-heading">Insurances</h2>
-    {% for insurance in insurances %}
-    <p class="insurance-paragraph">{{ insurance.insurance_name }}</p>
-    {% endfor %}
-
-    <input type="hidden" id="institution_lat" value="{{ institution.latitude }}">
-    <input type="hidden" id="institution_lng" value="{{ institution.longitude }}">
-
-    
-    <form id="review-form" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <table>
-        <!-- Row 1: Review -->
-        <tr>
-          <!-- <th class="review-label">{{ form.review.label_tag }}</th> -->
-          <th>Leave a review</th>
-          <!-- <th class="review-label">{{ form.review.label_tag }}</th> -->
-          <td class="review-field">{{ form.review }}</td>
-        </tr>
-        <!-- Row 2: Review Image -->
-        <tr>
-          <th> Leave a  picture of your visit (optional) </th>
-          <!-- <th class="review-image-label">{{ form.review_image.label_tag }}</th> -->
-          <td class="review-image-field">{{ form.review_image }}</td>
-        </tr>
-      </table>
-      <button class="submit-button" type="submit">Submit Review</button>
-    </form>
-  </div>
-  {% else %}
-  
-  {% endif %}
 </div>
+
+<div class="single-institution">
+  <!-- <button class="back-button">Back</button> Back button added -->
+  <h1 class="institution-name">{{ institution.institution_name }}</h1>
+  <img class="{{ institution.image.url }}" alt="{{ institution.institution_name }}"/>
+  <!-- <div id="map-route"></div> -->
+  <!-- Display insurance information -->
+  <h2 class="insurance-heading">Insurances</h2>
+  {%if insurances%}
+  {% for insurance in insurances %}
+  <p class="insurance-paragraph">{{ insurance.insurance_name }}</p>
+  {% endfor %}
+  {% else %}
+  	<p>No Insurance Listed For This Institution. <br>Kindly mention them in the review section</p>
+
+  <!-- Display review summaries -->
+  <div class="reviews-section">
+    {% for review in reviews %}
+    <p class="review-summary">{{ review.review_summary }}</p>
+    <a href="#" class="read-more">Read more</a>
+    {% endfor %}
+  </div>
+  <!-- Display services -->
+  <h2 class="service-heading">Services</h2>
+  {%if services%}
+  <ul class="service-list">
+    
+    {% for service in services %}
+    <li>{{ service.service_name }} - ${{ service.service_price }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  	<p>No Services Listed For This Institution. <br>Kindly leave a photograph of your medical bill in the review section</p>
+{%endif%}
+  <!-- Display all insurances -->
+  
+  <!-- Pass institution details -->
+  <input type="hidden" id="institution_lat" value="">
+  <input type="hidden" id="institution_lng" value="">
+
+  <form id="review-form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      <!-- Row 1: Review -->
+      <tr>
+        <!-- <th class="review-label">{{ form.review.label_tag }}</th> -->
+        <th>Leave a review</th>
+        <!-- <th class="review-label">{{ form.review.label_tag }}</th> -->
+        <td class="review-field">{{ form.review }}</td>
+      </tr>
+      <!-- Row 2: Review Image -->
+      <tr>
+        <th>Leave a picture of your visit (optional)</th>
+        <!-- <th class="review-image-label">{{ form.review_image.label_tag }}</th> -->
+        <td class="review-image-field">{{ form.review_image }}</td>
+      </tr>
+    </table>
+    <button class="submit-button" type="submit">Submit Review</button>
+  </form>
+</div>
+
+</div>
+
 
 {% endblock %}
 
 {% block extend_footer %}
-<script type="text/javascript">
 
-  var google_api_key = "{{google_api_key|safe}}";
-  var base_country = "{{base_country|safe}}";
 
-</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
   $(document).ready(function() {
     $('.list-item').click(function() {
       var id = $(this).data('institution-id');
-      $.ajax({
-        url: '/get_institution_details/',
-        type: 'GET',
-        data: {
-          'institution_id': id
-        },
-        success: function(data) {
-          $('.institution-name').text(data.institution_name);
-        },
-        error: function(xhr, status, error) {
-          console.error(xhr.responseText);
-        }
-      });
+      // Simulating institution data retrieval
+      var institutionName = "Institution Name"; // Replace with actual data retrieval logic
+      $('.institution-name').text(institutionName);
 
-      $.ajax({
-        url: '/get_reviews/',
-        type: 'GET',
-        data: {
-          'institution_id': id
-        },
-        success: function(data) {
-          $('.reviews-section').empty();
-          data.reviews.forEach(function(review) {
-            $('.reviews-section').append('<p class="review-summary">' + review.review_summary + '</p><a href="#" class="read-more">Read more</a>');
-          });
-        },
-        error: function(xhr, status, error) {
-          console.error(xhr.responseText);
-        }
-      });
-
-      $('.container').fadeOut('slow', function() {
+      // Fade out the institution list
+      $('.institutions').fadeOut('slow', function() {
+        // Once fade out is complete, fade in the single institution
         $('.single-institution').fadeIn('slow');
       });
     });
 
     $('.back-button').click(function() {
+      // Fade out the single institution
       $('.single-institution').fadeOut('slow', function() {
-        $('.container').fadeIn('slow');
+        // Once fade out is complete, fade in the institution list
+        $('.institutions').fadeIn('slow');
       });
     });
   });
 </script>
-<script src="{% static 'hospital_maps.js' %}" async></script>
+  <!-- <script src="{% static 'google_maps.js' %}"></script> -->
 
 
 {% endblock %}
