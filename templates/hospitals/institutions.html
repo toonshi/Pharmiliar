@@ -1,59 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block extend_head %}
-<style>
-  /* Add CSS for full-page covering */
-  .institutions.full-page {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white; /* You can adjust background color */
-    opacity: 1; /* Initially visible */
-    transition: opacity 0.5s ease; /* Add smooth transition */
-  }
-
-  /* CSS to hide element */
-  .hidden {
-    display: none;
-  }
-</style>
-
-
 
 {% endblock %}
 
-
 {% block content %}
-
-  <div class="container">
-    <h1 class="institution-list">List of Institutions</h1>
-    {% for inst in institutions %}
-    <div class="list-item" data-institution-id="{{ inst.id }}">
-      <li>
-        <p>{{ inst.institution_name }}</p>
-      </li>
-    </div>
-    {% endfor %}
+<div class="container">
+  <h1 class="institution-list">List of Institutions</h1>
+  {% for inst in institutions %}
+  <div class="list-item" data-institution-id="{{ inst.id }}">
+    <li>
+      <p>{{ inst.institution_name }}</p>
+    </li>
   </div>
+  {% endfor %}
+</div>
 </div>
 
 <div class="single-institution">
   <!-- <button class="back-button">Back</button> Back button added -->
   <h1 class="institution-name">{{ institution.institution_name }}</h1>
-  <img class="{{ institution.image.url }}" alt="{{ institution.institution_name }}"/>
+  <img class="{{ institution.image.url }}" alt="{{ institution.institution_name }}" />
   <!-- <div id="map-route"></div> -->
   <!-- Display insurance information -->
   <h2 class="insurance-heading">Insurances</h2>
-  {%if insurances%}
+  {% if insurances %}
   {% for insurance in insurances %}
   <p class="insurance-paragraph">{{ insurance.insurance_name }}</p>
   {% endfor %}
   {% else %}
-  	<p>No Insurance Listed For This Institution. <br>Kindly mention them in the review section</p>
+  <p>No Insurance Listed For This Institution. <br>Kindly mention them in the review section</p>
+  {% endif %}
 
   <!-- Display review summaries -->
   <div class="reviews-section">
@@ -64,18 +42,18 @@
   </div>
   <!-- Display services -->
   <h2 class="service-heading">Services</h2>
-  {%if services%}
+  {% if services %}
   <ul class="service-list">
-    
     {% for service in services %}
     <li>{{ service.service_name }} - ${{ service.service_price }}</li>
     {% endfor %}
   </ul>
   {% else %}
-  	<p>No Services Listed For This Institution. <br>Kindly leave a photograph of your medical bill in the review section</p>
-{%endif%}
+  <p>No Services Listed For This Institution. <br>Kindly leave a photograph of your medical bill in the review
+    section</p>
+  {% endif %}
   <!-- Display all insurances -->
-  
+
   <!-- Pass institution details -->
   <input type="hidden" id="institution_lat" value="">
   <input type="hidden" id="institution_lng" value="">
@@ -100,15 +78,10 @@
     <button class="submit-button" type="submit">Submit Review</button>
   </form>
 </div>
-
 </div>
-
-
 {% endblock %}
 
 {% block extend_footer %}
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
@@ -134,7 +107,5 @@
     });
   });
 </script>
-  <!-- <script src="{% static 'google_maps.js' %}"></script> -->
-
-
+<!-- <script src="{% static 'google_maps.js' %}"></script> -->
 {% endblock %}

@@ -18,7 +18,7 @@ RECAPTCHA_PRIVATE_KEY = ""
 7. python manage.py makemigrations
 8. python manage.py migrate
 9. python manage.py runserver
-10. https://localhost:8000 - Bob's your uncle!!
+10. https://localhost:8000 
 
 Note:
 
@@ -76,3 +76,5 @@ Note:
 Remember that django-crontab relies on cron to execute the scheduled tasks. While django-crontab simplifies the process of scheduling tasks within a Django project, it ultimately relies on the underlying system's cron scheduler to execute those tasks. Therefore, cron must still be installed and properly configured on your system for django-crontab to work.
 
 Using django-crontab provides a Django-native solution for scheduling periodic tasks, eliminating the need for manual cron configuration and making it easier to manage scheduled tasks within your Django project.
+
+Get an open ai key  from OpenAI API 

@@ -319,3 +319,22 @@ input:hover,
   justify-content: space-between;
 }
 
+
+  /* Add CSS for full-page covering
+  .institutions.full-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white; /* You can adjust background color */
+    /* opacity: 1; /* Initially visible */
+    /* transition: opacity 0.5s ease; Add smooth transition */
+  /* } */ 
+  /* */ 
+  /* */ */ */
+
+  /* CSS to hide element */
+  .hidden {
+    display: none;
+  }
